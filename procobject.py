@@ -65,10 +65,7 @@ class SMaps(object):
 
     # static size helper
     _sizemap = {
-             "B" : 1<< 0,
-            "kB" : 1<<10,
-            "MB" : 1<<20,
-            "GB" : 1<<30,
+            "kB"    : 1<<10,
     }
 
     def __setattr__(self, attr, val):
@@ -163,15 +160,15 @@ class ProcObject:
                     m = re.match("(.)(.)(.)(.)\s+([0-9a-fA-F]+)\s+(.+?)\s+(\d+)\s*(.*)", desc)
                     if m:
                         r,w,x,p,sm.offset,sm.device,sm.inode,sm.name = m.groups()
-                        for expected, flag, varname in [
-                                            ('r', r, 'canread'),
-                                            ('w', w, 'canwrite'),
-                                            ('x', x, 'canexecute'),
-                                            ('p', p, 'isprivate'),
+                        for expectedtrue, expectedfalse, flag, varname in [
+                                            ('r', '-', r, 'canread'),
+                                            ('w', '-', w, 'canwrite'),
+                                            ('x', '-', x, 'canexecute'),
+                                            ('p', 's', p, 'isprivate'),
                                         ]:
-                            if flag == expected:
+                            if flag == expectedtrue:
                                 sm.__setattr__(varname, True)
-                            elif flag == '-':
+                            elif flag == expectedfalse:
                                 sm.__setattr__(varname, False)
                             else:
                                 _logger.warning("unrecognized protection %s-flag in '%s'" % (expected, desc))
