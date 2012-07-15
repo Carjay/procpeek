@@ -107,18 +107,19 @@ class ProcObject:
     """
     pid = None
     smapslist = None # list, holds the current mappings as SMaps instances
-    
+
     def __init__(self, pid):
         """
-            pid is the pid to scan
+            pid - the pid to parse
+            note that this will implicitly execute a parse
         """
         self.pid = pid
-        self.rescan()
-    
+        self.reparse()
 
-    def rescan(self):
+
+    def reparse(self):
         """
-            rescan proc entries
+            rescan proc entries to update pid information
         """
         self.smapslist = []
         
