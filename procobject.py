@@ -70,7 +70,7 @@ class SMaps(object):
 
     def __setattr__(self, attr, val):
         # we override these to convert strings to integer
-        if attr in ["saddr", "eaddr", "inode",
+        if attr in ["inode",
                     "size", "rss", "pss",
                     "shared_clean",  "shared_dirty", "private_clean", "private_dirty",
                     "referenced", "anonymous", "anonhugepages", "swap",
@@ -144,6 +144,8 @@ class ProcObject:
             entrylines = entries[(2*i)+2].splitlines()
             startaddr, endaddr = [ int(x.strip(),16) for x in entries[(2*i)+1].split('-') ]
             newentry = [ endaddr-startaddr, dict() ]
+            newentry[1]['saddr'] = startaddr
+            newentry[1]['eaddr'] = endaddr
             newentry[1]['description'] = entrylines[0]
             for line in entrylines[1:]:
                 key,value = [ x.strip() for x in line.split(':') ]
