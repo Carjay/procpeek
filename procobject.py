@@ -50,7 +50,7 @@ class SMaps(object):
     # entries taken directly from proc
     size  = None # size of mapping
     rss   = None #
-    pss   = None #
+    pss   = None # proportional set size, "process' share of rss"
     shared_clean = None
     shared_dirty = None
     private_clean = None
@@ -103,7 +103,7 @@ class ProcObject:
         class to hold information from a proc entry
     """
     pid = None
-    smapslist = None # list, holds the current mappings as SMaps instances
+    smapslist = None # holds current mappings as SMaps instances (sorted by startaddress)
 
     def __init__(self, pid):
         """
@@ -139,6 +139,7 @@ class ProcObject:
 
         # first pass, internal "close to metal" representation, arranged in pairs due to the separator
         rangemap = dict() # startaddr pointing to [ range, dictionary of keys ]
+
         for i in range(entrycnt):
             entrylines = entries[(2*i)+2].splitlines()
             startaddr, endaddr = [ int(x.strip(),16) for x in entries[(2*i)+1].split('-') ]
