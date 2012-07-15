@@ -28,7 +28,6 @@ def main():
 
     if pid:
         po = ProcObject(pid)
-        print po.dump()
 
 
 try:
