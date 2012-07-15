@@ -127,7 +127,8 @@ class ProcObject:
             fh = open("/proc/%d/smaps" % self.pid)
             smaps = fh.read()
         except IOError, e:
-            raise ValueError, "unable to open proc entry to get smaps"
+            _logger.error("unable to open proc entry for pid %d to get smaps" % self.pid)
+            raise IOError, "unable to open proc entry for pid %d to get smaps" % self.pid
 
         its = re.split("([a-fA-F0-9]+\-[a-fA-F0-9]+ )", smaps, flags = re.DOTALL)
         entries = list(its)
